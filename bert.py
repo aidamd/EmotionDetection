@@ -132,7 +132,7 @@ def initiate_data(file):
         # Store the attention mask for this sentence.
         attention_masks.append(att_mask)
 
-    return input_ids, attention_masks
+    return input_ids, attention_masks, dataset
 
 
 def CV(input_ids, attention_masks, pred_labels, dataset, FILE, device):
@@ -209,7 +209,7 @@ def CV(input_ids, attention_masks, pred_labels, dataset, FILE, device):
             # linear classification layer on top.
             model = BertForSequenceClassification.from_pretrained(
                 "bert-base-uncased",  # Use the 12-layer BERT model, with an uncased vocab.
-                num_labels=2,  # The number of output labels--2 for binary classification.
+                num_labels=6,  # The number of output labels--2 for binary classification.
                 # You can increase this for multi-class tasks.
                 output_attentions=False,  # Whether the model returns attentions weights.
                 output_hidden_states=False,  # Whether the model returns all hidden-states.
@@ -557,14 +557,14 @@ def CV(input_ids, attention_masks, pred_labels, dataset, FILE, device):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--data")
-    parser.add_argument("--labels")
+    parser.add_argument('--labels','--list', nargs='+', type=str)
 
     args = parser.parse_args()
     name = args.data.split("/")[-1].split(".")[0]
 
     device = initiate_bert()
-    inputs, masks = initiate_data(args.data)
+    inputs, masks, dataset = initiate_data(args.data)
 
-    CV(inputs, masks, args.labels, args.data, name, device)
+    CV(inputs, masks, args.labels, dataset, name, device)
 
 
