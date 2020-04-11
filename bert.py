@@ -155,7 +155,7 @@ def train_predict(input_ids, attention_masks, pred_labels, dataset, FILE, device
         train_inputs = torch.tensor(input_ids)
         prediction_inputs = torch.tensor(pred_input_ids)
 
-        train_labels = torch.tensor(train_labels)
+        train_labels = torch.tensor(labels)
 
         train_masks = torch.tensor(train_masks)
         prediction_masks = torch.tensor(pred_attention_mask)
